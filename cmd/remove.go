@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	deck_model "github.com/stevezaluk/mtgjson-models/deck"
+	deck "github.com/stevezaluk/mtgjson-sdk-client/deck"
 )
 
 var removeCmd = &cobra.Command{
@@ -20,6 +21,24 @@ var removeCmd = &cobra.Command{
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		passedType := args[0]
+		if passedType == "set" {
+			fmt.Println("[error] Not implemented yet")
+			os.Exit(0)
+		} else if passedType == "deck" {
+			code := args[1]
+			cards := []string{args[2]}
+
+			board, _ := cmd.Flags().GetString("board")
+			err := deck.DeleteCards(code, cards, board)
+			if err != nil {
+				fmt.Println("[error]", err.Error())
+				os.Exit(0)
+			}
+		} else {
+			fmt.Println("[error] Invalid type for remove command. Can be: set, deck")
+			os.Exit(0)
+		}
 	},
 }
 
