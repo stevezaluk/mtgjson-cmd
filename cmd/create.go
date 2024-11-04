@@ -20,4 +20,6 @@ var createCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(createCmd)
+
+	createCmd.PersistentFlags().StringP("import", "-i", "", "Pass a .json file to use for creation. Should define the type you want to import")
 }
