@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"github.com/stevezaluk/mtgjson-sdk-client/api"
 	"github.com/stevezaluk/mtgjson-sdk-client/config"
 	"os"
@@ -49,6 +50,9 @@ func init() {
 	cobra.OnInitialize(initApi)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.mtgjson-cmd.yaml)")
+
+	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbosity across all commands")
+	viper.BindPFlag("verbose", rootCmd.PersistentFlags().Lookup("verbose"))
 }
 
 func initConfig() {
