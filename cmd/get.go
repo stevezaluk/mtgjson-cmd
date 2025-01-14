@@ -28,6 +28,16 @@ var getCmd = &cobra.Command{
 	},
 }
 
+var getCardCmd = &cobra.Command{
+	Use:   "card",
+	Short: "",
+	Long:  "Fetch metadata for a single card",
+	Run: func(cmd *cobra.Command, args []string) {
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(getCmd)
+
+	getCmd.AddCommand(getCardCmd)
 }
