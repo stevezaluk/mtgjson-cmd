@@ -53,6 +53,9 @@ func init() {
 
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbosity across all commands")
 	viper.BindPFlag("verbose", rootCmd.PersistentFlags().Lookup("verbose"))
+
+	rootCmd.PersistentFlags().StringP("token", "t", "", "Set the token to send with each request")
+	viper.BindPFlag("api.token_str", rootCmd.PersistentFlags().Lookup("token"))
 }
 
 func initConfig() {
