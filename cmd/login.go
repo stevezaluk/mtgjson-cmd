@@ -17,6 +17,8 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -26,8 +28,32 @@ var loginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "",
 	Long:  `Exchange user credentials for an OAuth Access Token`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		email := viper.GetString("api.email")
+		if email == "" {
+			fmt.Println("error: a email must be passed to make an authentication request")
+			os.Exit(1)
+		}
+
+		password := viper.GetString("api.password")
+		if password == "" {
+			fmt.Println("error: a password must be passed to make an authentication request")
+			os.Exit(1)
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("login called")
+		err := mtgjson.Auth.SetAuthToken(viper.GetString("api.email"), viper.GetString("api.password"))
+		if err != nil {
+			fmt.Println("error: Failed to fetch access token (", err.Error(), ")")
+			os.Exit(1)
+		}
+
+		err = viper.WriteConfig()
+		if err != nil {
+			fmt.Println("error: Failed to write config file with access token (", err.Error(), ")")
+		}
+
+		fmt.Println("Fetched access token for: ", viper.GetString("api.email"))
 	},
 }
 
