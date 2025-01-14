@@ -54,6 +54,9 @@ var loginCmd = &cobra.Command{
 		}
 
 		fmt.Println("Fetched access token for: ", viper.GetString("api.email"))
+		if viper.GetBool("verbose") {
+			fmt.Println("Access Token:", viper.GetString("api.token_str"))
+		}
 	},
 }
 
