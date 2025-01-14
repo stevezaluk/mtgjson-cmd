@@ -62,4 +62,10 @@ var loginCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(loginCmd)
+
+	loginCmd.Flags().StringP("email", "e", "", "Set the email that you want to use for authentication")
+	viper.BindPFlag("api.email", loginCmd.Flags().Lookup("email"))
+
+	loginCmd.Flags().StringP("password", "p", "", "Set the password that you want to use for authentication")
+	viper.BindPFlag("api.password", loginCmd.Flags().Lookup("password"))
 }
