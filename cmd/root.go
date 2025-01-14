@@ -18,10 +18,9 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/stevezaluk/mtgjson-sdk-client/api"
+	"github.com/stevezaluk/mtgjson-sdk-client/config"
 	"os"
-
-	homedir "github.com/mitchellh/go-homedir"
-	"github.com/spf13/viper"
 )
 
 const (
@@ -30,6 +29,7 @@ const (
 )
 
 var cfgFile string
+var mtgjson *api.MtgjsonApi
 
 var rootCmd = &cobra.Command{
 	Use:   "mtgjson-cmd",
@@ -46,32 +46,19 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(initApi)
+
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.mtgjson-cmd.yaml)")
 }
 
 func initConfig() {
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
-	} else {
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-
-		viper.SetConfigType("json")
-		viper.AddConfigPath(home + defaultConfigPath)
-		viper.SetConfigName(defaultConfigName)
-	}
-
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println("Error while reading config file:", err.Error())
+	err := config.ReadConfigFile(cfgFile)
+	if err != nil {
+		fmt.Println("error: Failed to read config file (", err.Error(), ")")
 		os.Exit(1)
 	}
+}
 
-	viper.SetDefault("api.use_ssl", true)
-	viper.SetDefault("api.ip_address", "127.0.0.1")
-	viper.SetDefault("api.port", 8080)
+func initApi() {
+	mtgjson = api.New()
 }
