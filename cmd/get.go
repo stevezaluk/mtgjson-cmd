@@ -141,12 +141,10 @@ var getCardCmd = &cobra.Command{
 			fmt.Println("\tCreation Date:", card.MtgjsonApiMeta.CreationDate)
 			fmt.Println("\tModified Date:", card.MtgjsonApiMeta.ModifiedDate)
 		}
-
 	},
 }
 
 func init() {
-
 	getCmd.PersistentFlags().String("owner", "system", "Set the owner to use for the query. Defaults to the email provided in the config file")
 	viper.BindPFlag("api.owner", getCmd.PersistentFlags().Lookup("owner"))
 
