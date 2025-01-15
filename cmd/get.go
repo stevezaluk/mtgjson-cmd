@@ -38,6 +38,12 @@ var getCardCmd = &cobra.Command{
 	Use:   "card",
 	Short: "Fetch metadata for a single card",
 	Long:  "",
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if len(args) != 1 {
+			fmt.Println("error: A UUID must be passed to fetch a card")
+			os.Exit(1)
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		// check for args length here
 		owner := viper.GetString("api.owner")
