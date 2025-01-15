@@ -57,6 +57,8 @@ var getCardCmd = &cobra.Command{
 		fmt.Println("Name:", card.Name)
 		fmt.Println("Set Code:", card.SetCode)
 		fmt.Println("Mana Cost: ", card.ManaCost)
+		fmt.Println("CMC (Converted Mana Cost): ", card.ConvertedManaCost)
+		fmt.Println("Color Identity: ", card.ColorIdentity)
 		fmt.Println("Type:", card.Type)
 		fmt.Println("Sub-Type:", card.Subtypes)
 		fmt.Println("Description:", card.Text)
