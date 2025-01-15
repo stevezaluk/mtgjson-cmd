@@ -27,7 +27,9 @@ import (
 var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Fetch metadata for a user, deck, set, or card",
-	Long:  `Fetch metadata for a user, deck, set, or card`,
+	Long: `Makes a single GET request to the endpoint associated with the object type you are
+trying to request. In most cases an owner (--owner) will need to passed. This will default to the system
+owner if one is not specified`,
 	Run: func(cmd *cobra.Command, args []string) {
 	},
 }
