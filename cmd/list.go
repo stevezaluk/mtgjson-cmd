@@ -16,7 +16,9 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 var listCmd = &cobra.Command{
@@ -28,6 +30,28 @@ type that you are attempting to request`,
 	},
 }
 
+var listCardCmd = &cobra.Command{
+	Use:   "card",
+	Short: "List all cards available in the database",
+	Long:  "",
+	Run: func(cmd *cobra.Command, args []string) {
+		cards, err := mtgjson.Card.IndexCards()
+		if err != nil {
+			fmt.Println("error: Failed to fetch a list of cards (", err.Error(), ")")
+			os.Exit(1)
+		}
+
+		fmt.Println("Query:")
+
+		for _, card := range *cards {
+			fmt.Println("\t", card.ColorIdentity, "-", card.Name, " (", card.Identifiers.MtgjsonV4Id, ")")
+		}
+
+		fmt.Println("\n Number of Cards: ", len(*cards))
+	},
+}
+
 func init() {
+	listCmd.AddCommand(listCardCmd)
 	rootCmd.AddCommand(listCmd)
 }
