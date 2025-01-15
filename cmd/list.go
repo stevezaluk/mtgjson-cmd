@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"os"
 )
 
@@ -35,7 +36,7 @@ var listCardCmd = &cobra.Command{
 	Short: "List all cards available in the database",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		cards, err := mtgjson.Card.IndexCards()
+		cards, err := mtgjson.Card.IndexCards() // implement ownership here
 		if err != nil {
 			fmt.Println("error: Failed to fetch a list of cards (", err.Error(), ")")
 			os.Exit(1)
@@ -52,6 +53,9 @@ var listCardCmd = &cobra.Command{
 }
 
 func init() {
+	listCmd.PersistentFlags().IntP("limit", "l", 100, "Limit the number of cards returned in the query")
+	viper.BindPFlag("api.limit", listCmd.PersistentFlags().Lookup("limit"))
+
 	listCmd.AddCommand(listCardCmd)
 	rootCmd.AddCommand(listCmd)
 }
