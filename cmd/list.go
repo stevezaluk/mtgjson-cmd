@@ -45,7 +45,7 @@ var listCardCmd = &cobra.Command{
 		fmt.Println("Query:")
 
 		for _, card := range *cards {
-			fmt.Println("\t", card.ColorIdentity, "-", card.Name, " (", card.Identifiers.MtgjsonV4Id, ")")
+			fmt.Println("\t", card.ColorIdentity, "-", card.Identifiers.MtgjsonV4Id, "-", card.Name, "(", card.MtgjsonApiMeta.Owner, ")")
 		}
 
 		fmt.Println("\n Number of Cards: ", len(*cards))
