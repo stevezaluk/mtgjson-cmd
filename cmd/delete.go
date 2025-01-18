@@ -42,7 +42,6 @@ var deleteCardCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		owner, _ := cmd.Flags().GetString("owner")
-		fmt.Println(owner)
 
 		message, err := mtgjson.Card.DeleteCard(args[0], owner)
 		if err != nil {
